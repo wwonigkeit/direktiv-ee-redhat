@@ -1,0 +1,73 @@
+#Mac desktop files
+.DS_Store
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+.vscode
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+*_final.yaml
+templates_final
+setup2/09_registry_optional/auth
+
+api/build/api*
+setup.tar.gz
+
+direktiv-charts/
+
+**/myhost.local.key
+**/myhost.local.cert
+
+
+**/server.key
+**/server.crt
+
+/installer/install/*
+api/build/*
+
+install/00_prepare/keycloak
+install/00_prepare/apisix
+install/00_prepare/linkerd
+install/01_linkerd/certs
+install/03_apisix/jwtcerts
+install/03_keycloak/db.yaml
+install/03_keycloak/env.yaml
+install/03_keycloak/import_out.yaml
+install/03_keycloak/keycloak_out.yaml
+install/03_keycloak/kc_secret.txt
+install/04_direktiv/adminToken.txt
+install/04_direktiv/adminkey.txt
+install/04_direktiv/db.yaml
+install/04_direktiv/hostname.yaml
+install/04_direktiv/direktiv_out.yaml
+install/04_direktiv/adminkey.yaml
+
+
+install-scripts/scripts/01_apisix/certificates
+
+
+
+helmfile/helm/linkerd/ca.*
+helmfile/helm/linkerd/issuer.*
+helmfile/helm/prepare
+
+
+apisix-ingress/apisix-ingress-controller
+
+
+*go.work*
+node_modules/
+.idea
+.draft

@@ -1,0 +1,113 @@
+proxy: edge
+
+postgresql:
+  enabled: false
+
+auth:
+  adminUser: admin
+  adminPassword: admin
+  managementUser: admin
+  managementPassword: admin
+
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: DIREKTIV_HOST
+  tls: true
+  extraTls:
+  - hosts:
+      - DIREKTIV_HOST
+    secretName: direktiv-tls
+
+httpRelativePath: /auth/
+
+
+# set to true if more than one replica
+serviceDiscovery:
+  enabled: false
+
+replicaCount: 1
+
+# enable if more than one replica
+# cache:
+#   ownersCount: 1
+#   authOwnersCount: 1
+
+containerPorts:
+  http: 1644
+  https: 8443
+
+service:
+  type: ClusterIP
+  port: 1644
+  https: 8443
+
+serviceAccount:
+  automountServiceAccountToken: true
+
+rbac:
+  create: true
+  rules:
+    - apiGroups:
+        - ""
+      resources:
+        - pods
+      verbs:
+        - get
+        - list
+        
+extraVolumes:
+  - name: realm
+    configMap:
+      name: direktiv-import
+  - name: theme
+    configMap:
+      name: direktiv-theme
+      items:
+      - key: keycloak-logo.png
+        path: resources/img/keycloak-logo.png
+      - key: feedback-success-arrow-down.png
+        path: resources/img/feedback-success-arrow-down.png
+      - key: feedback-error-arrow-down.png 
+        path: resources/img/feedback-error-arrow-down.png 
+      - key: feedback-error-sign.png
+        path: resources/img/feedback-error-sign.png
+      - key: feedback-success-sign.png
+        path: resources/img/feedback-success-sign.png
+      - key: feedback-warning-sign.png
+        path: resources/img/feedback-warning-sign.png
+      - key: keycloak-bg.png
+        path: resources/img/keycloak-bg.png
+      - key: keycloak-logo-text.png
+        path: resources/img/keycloak-logo-text.png
+      - key: feedback-warning-arrow-down.png
+        path: resources/img/feedback-warning-arrow-down.png
+      - key: keycloak-logo-text.png
+        path: resources/img/keycloak-logo-text.png
+      - key: GithubLogo.svg 
+        path: resources/img/GithubLogo.svg   
+      - key: BookLogo.svg
+        path: resources/img/BookLogo.svg
+      - key: direktiv_logo.svg
+        path: resources/img/direktiv_logo.svg
+      - key: favicon.png
+        path: resources/img/favicon.png
+      - key: login.ftl
+        path: login.ftl
+      - key: theme.properties
+        path: theme.properties
+      - key: error.ftl
+        path: error.ftl
+      - key: template.ftl
+        path: template.ftl
+      - key: login.css
+        path: resources/css/login.css
+
+extraVolumeMounts:
+  - name: realm
+    mountPath: "/opt/bitnami/keycloak/data/import"
+    readOnly: true
+  - name: theme
+    mountPath: "/opt/bitnami/keycloak/themes/direktiv/login"
+    readOnly: true

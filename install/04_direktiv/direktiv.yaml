@@ -1,0 +1,25 @@
+registry: docker.io
+image: direktiv/direktiv-ee
+# tag: dev
+
+pullPolicy: Always
+debug: "false"
+
+eventing:
+  enabled: true
+
+flow:
+  extraVariables:
+  - name: DIREKTIV_OIDC_ISSUER_URL
+    value: https://DIREKTIV_HOST/auth/realms/direktiv
+  - name: DIREKTIV_OIDC_CLIENT_ID
+    value: direktiv
+  - name: DIREKTIV_OIDC_SKIP_TLS_VERIFY
+    value: "true"
+  - name: DIREKTIV_OIDC_ADMIN_GROUP
+    value: admin
+  additionalEnvs: []
+  additionalSecEnvs: []
+ingress:
+  host: DIREKTIV_HOST
+  certificate: direktiv-tls
