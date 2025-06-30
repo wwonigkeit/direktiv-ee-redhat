@@ -25,7 +25,7 @@ EOF
 
 echo ">>> install docker >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 # Remove old version of Docker:
-dnf remove docker \
+sudo dnf remove docker \
                   docker-client \
                   docker-client-latest \
                   docker-common \
@@ -36,13 +36,17 @@ dnf remove docker \
                   podman \
                   runc
 # Install Docker using the official script
-dnf -y install dnf-plugins-core
-dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-sed -i -e 's/\$releasever/9/g' /etc/yum.repos.d/docker-ce.repo
-dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sudo sed -i -e 's/\$releasever/9/g' /etc/yum.repos.d/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Set the correct users for Docker
+sudo usermod -aG docker $USER
+newgrp docker
 
 # Start and enable Docker
-systemctl enable --now docker
+sudo systemctl enable --now docker
 
 # Run local Docker registry
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
