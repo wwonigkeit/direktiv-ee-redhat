@@ -44,12 +44,13 @@ EOF
 
 tee db.yaml <<EOF
 externalDatabase:
-  host: `kubectl get secrets -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data \"host\" }}' | base64 -d`
-  port: `kubectl get secrets -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data \"port\" }}' | base64 -d`
-  user: `kubectl get secrets -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data \"user\" }}' | base64 -d`
-  password: "`kubectl get secrets -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data \"password\" }}' | base64 -d`"
-  database: `kubectl get secrets -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data \"dbname\" }}' | base64 -d`
+  host: $(kubectl get secret -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data "host" | base64decode }}')
+  port: $(kubectl get secret -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data "port" | base64decode }}')
+  user: $(kubectl get secret -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data "user" | base64decode }}')
+  password: "$(kubectl get secret -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data "password" | base64decode }}')"
+  database: $(kubectl get secret -n postgres direktiv-cluster-pguser-keycloak -o go-template='{{ index .data "dbname" | base64decode }}')
 EOF
+
 
 sed "s/localhost:8080/`echo $DIREKTIV_HOST`/g" import.yaml > import_out.yaml
 
