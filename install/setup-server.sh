@@ -66,3 +66,11 @@ helm repo add nats https://nats-io.github.io/k8s/helm/charts
 helm repo add opensearch https://opensearch-project.github.io/helm-charts/
 helm repo add opentelemetry-collector https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo update
+
+# Allow pod network CIDR for inter-pod communication
+sudo firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16
+sudo firewall-cmd --permanent --add-port=6443/tcp                           # Kubernetes API server
+sudo firewall-cmd --permanent --add-port=10250/tcp                          # Kubelet API
+sudo firewall-cmd --permanent --add-port=8472/udp                           # VXLAN (Flannel)
+sudo firewall-cmd --permanent --add-port=2379-2380/tcp                      # etcd client/server
+sudo firewall-cmd --reload
