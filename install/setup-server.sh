@@ -24,12 +24,25 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 EOF
 
 echo ">>> install docker >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+# Remove old version of Docker:
+dnf remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine \
+                  podman \
+                  runc
 # Install Docker using the official script
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
+dnf -y install dnf-plugins-core
+dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sed -i -e 's/\$releasever/9/g' /etc/yum.repos.d/docker-ce.repo
+dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Start and enable Docker
-sudo systemctl enable --now docker
+systemctl enable --now docker
 
 # Run local Docker registry
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
