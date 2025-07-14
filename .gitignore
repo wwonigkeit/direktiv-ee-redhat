@@ -56,10 +56,6 @@ install/04_direktiv/adminkey.yaml
 
 install-scripts/scripts/01_apisix/certificates
 
-
-
-helmfile/helm/linkerd/ca.*
-helmfile/helm/linkerd/issuer.*
 helmfile/helm/prepare
 
 
