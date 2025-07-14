@@ -20,6 +20,11 @@ flow:
     value: admin
   additionalEnvs: []
   additionalSecEnvs: []
+
+http_proxy: ""
+https_proxy: ""
+no_proxy: ".default,localhost,127.0.0.1,172.28.0.0/16,172.29.0.0/16,10.0.0.0/8,.svc,.cluster.local"
+
 ingress:
   host: DIREKTIV_HOST
   certificate: direktiv-tls

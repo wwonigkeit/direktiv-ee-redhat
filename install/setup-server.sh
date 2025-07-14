@@ -8,18 +8,14 @@ echo ">>> install k3s >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 curl -sfL https://get.k3s.io | sh -s - --disable traefik --write-kubeconfig-mode=644 --cluster-init
 
 # Configure kubectl alias and completion
-alias kc="kubectl"
-if [ -f /usr/share/bash-completion/completions/kubectl ]; then
-    source /usr/share/bash-completion/completions/kubectl
-else
-    source <(kubectl completion bash)
-fi
-complete -F __start_kubectl kc
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+sudo chmod a+r /etc/bash_completion.d/kubectl
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 cat << 'EOF' >> ~/.bashrc
 
 # Add the KUBECONFIG variable for kubectl
+source <(kubectl completion bash)
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 EOF
 
@@ -43,7 +39,7 @@ sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 
 # Set the correct users for Docker
 sudo usermod -aG docker $USER
-newgrp docker
+# newgrp docker
 
 # Start and enable Docker
 sudo systemctl enable --now docker
