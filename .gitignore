@@ -40,7 +40,6 @@ api/build/*
 install/00_prepare/keycloak
 install/00_prepare/apisix
 install/00_prepare/linkerd
-install/01_linkerd/certs
 install/03_apisix/jwtcerts
 install/03_keycloak/db.yaml
 install/03_keycloak/env.yaml
